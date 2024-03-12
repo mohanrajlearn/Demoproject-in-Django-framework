@@ -1,0 +1,29 @@
+{% extends 'nav.html' %}
+
+{% block title %}File Upload - Login{% endblock %}
+
+{% block content %}
+    <center>
+    <h1 style="margin-top: 100px;">Login Your Account</h1>
+    {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p> 
+    {% endif %}
+
+    <form action="{% url 'login' %}" method="POST" >
+        {% csrf_token %}
+        <div style="font-size: 25px; margin-top: 50px;">
+        <div style="margin-bottom: 20px;">
+        <label for="username">Username:</label>
+        <input style="font-size: 20px;" type="text" name="username" required><br>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <label for="password">Password:&nbsp;</label>
+        <input style="font-size: 20px;"type="password" name="password" required><br>
+    </div>
+
+        <button style=" padding: 10px 20px 10px 20px; width: 100px; font-size: 20px; margin-top: 20px;"  type="submit">Login</button>
+    </div>
+    </form>
+    <p style="font-size: 20px; margin-top: 50px;">New User Registration <a style="color:blue; text-decoration: none;"  href="{% url 'signup' %}">Signup</a></p>
+</center>
+{% endblock %}

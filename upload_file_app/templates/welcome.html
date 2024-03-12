@@ -1,0 +1,64 @@
+{% extends 'nav.html' %}
+
+{% block title %}File Upload - Login{% endblock %}
+
+{% block content %}
+  
+<center> 
+    <h1 style="margin-top: 100px;">Upload CSV File and Display Data</h1>
+    
+    <!-- File upload form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Upload</button>
+    </form>
+
+     
+
+    <!-- Display uploaded files -->
+     
+    <h2 style="margin-top: 50px;">Uploaded Files</h2>  
+    
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Serial No</th>
+                <th>File Name</th>
+                <th>Input File Path</th>
+                <!-- <th>Output File Path</th> -->
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for file_entry in file_list %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ file_entry.file.name |cut:"uploads/"|cut:".csv" }}</td>
+                    <td>{{ file_entry.file.name }}</td>
+                    <!-- <td>{{ file_entry.output_path }}</td> -->
+                    <td>
+                        <a href="{% url 'download_file' file_entry.pk %}">Download</a> |
+                        <a href="{% url 'delete_file' file_entry.pk %}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody> 
+    </table>  
+    {% for msg in messages %}
+    <div id="msg-container" style="margin-top: 20px; color: green;">
+    {{ msg }}
+    </div>
+{% endfor %}
+</center> 
+<script>
+    // Automatically fade out the message after 5 seconds
+    setTimeout(function() {
+        var msgContainer = document.getElementById('msg-container');
+        if (msgContainer) {
+            msgContainer.style.transition = 'opacity 1s';
+            msgContainer.style.opacity = 0;
+        }
+    }, 5000);
+</script>
+    {% endblock %}
